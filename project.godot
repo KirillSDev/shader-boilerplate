@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="ShaderBoilerplate"
-config/features=PackedStringArray("4.1", "Mobile")
-config/icon="res://icon.svg"
+run/main_scene="res://Scenes/Main.tscn"
+config/features=PackedStringArray("4.1", "C#", "Mobile")
 
 [display]
 
