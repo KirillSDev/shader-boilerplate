@@ -1,8 +1,38 @@
-[gd_scene load_steps=2 format=3 uid="uid://bihgkynu1xdcw"]
+[gd_scene load_steps=9 format=3 uid="uid://bihgkynu1xdcw"]
 
+[ext_resource type="Shader" path="res://Shaders/grid.gdshader" id="1_pc7wi"]
 [ext_resource type="Script" path="res://Scripts/Dispatcher.cs" id="1_ubxnv"]
+[ext_resource type="Texture2D" uid="uid://cbe7d2fv1p2qa" path="res://Textures/tex_Lit.png" id="2_8smdd"]
+[ext_resource type="Texture2D" uid="uid://bol2y1ffm5orc" path="res://Textures/tex_Unlit.png" id="3_5fltg"]
+[ext_resource type="Texture2D" uid="uid://dscy4ij5fcfvr" path="res://icon.svg" id="4_2hi31"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_55873"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8cw4g"]
+shader = ExtResource("1_pc7wi")
+shader_parameter/gridWidth = 1024
+shader_parameter/unlitTexture = ExtResource("3_5fltg")
+shader_parameter/litTexture = ExtResource("2_8smdd")
+shader_parameter/binaryDataTexture = SubResource("NoiseTexture2D_55873")
+
+[sub_resource type="Environment" id="Environment_qp4fo"]
+background_mode = 3
+glow_enabled = true
 
 [node name="Main" type="Node2D"]
 
-[node name="Node" type="Node" parent="."]
+[node name="Renderer" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_8cw4g")
+position = Vector2(960, 540)
+scale = Vector2(15, 15)
+texture = ExtResource("4_2hi31")
+metadata/_edit_lock_ = true
+
+[node name="Dispatcher" type="Node" parent="." node_paths=PackedStringArray("_renderer")]
 script = ExtResource("1_ubxnv")
+_autoStart = true
+_computeShader = "res://Shaders/compute_shader.glsl"
+_renderer = NodePath("../Renderer")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_qp4fo")
